@@ -1,4 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Todo } from 'src/app/state/todo/todo.model';
+import { Store } from '@ngrx/store';
+import * as fromStore from '../../state/app.reducer';
+import * as fromTodo from '../../state/todo/todo.actions';
+import { getAllTodos, getLoading, getError } from 'src/app/state/todo';
+
 
 @Component({
   selector: 'app-todo-list',
@@ -6,10 +13,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./todo-list.page.scss'],
 })
 export class TodoListPage implements OnInit {
+  todos$: Observable<Todo[]>;
+  loading$: Observable<boolean>;
+  error$: Observable<string>;
 
-  constructor() { }
+  constructor(
+    private store: Store<fromStore.AppState>
+  ) {
+    this.todos$ = this.store.select(getAllTodos);
+    this.loading$ = this.store.select(getLoading);
+    this.error$ = this.store.select(getError);
+  }
 
   ngOnInit() {
+    this.store.dispatch(new fromTodo.GetAllTodos);
   }
 
 }

@@ -1,9 +1,16 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>todo-list</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Todo List</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-
+  <ion-list>
+    <ion-item *ngFor="let todo of (todos$ | async)">
+      {{todo.name}}
+    </ion-item>
+  </ion-list>
 </ion-content>
